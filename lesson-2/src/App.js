@@ -21,16 +21,18 @@ function App() {
   }
 
   function addBotMessage() {
-    setmessageList([...messageList, {
-      id: messageList.length + 1,
-      author: 'Bot',
-      text: 'Hello User!',
-      data: (new Date()).toLocaleDateString('ru-RU', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-    }]);
+    setmessageList(prevState => {
+      return [...prevState, {
+        id: prevState.length + 1,
+        author: 'Bot',
+        text: 'Hello User!',
+        data: (new Date()).toLocaleDateString('ru-RU', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
+      }]
+    });
   }
 
   useEffect(() => {
