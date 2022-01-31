@@ -48,8 +48,8 @@ function App() {
       </header>
       <div className='App__body'>
         <div className='App__content'>
-          <MessageForm addUserMessage={addUserMessage}></MessageForm>
-          <MessageList list={messageList}></MessageList>
+          <MessageForm addUserMessage={addUserMessage} />          
+          <MessageList list={messageList} />
         </div>
       </div>
     </div>
