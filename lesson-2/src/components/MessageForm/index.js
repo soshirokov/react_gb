@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import './style.scss';
 
-export default function MessageForm({ addUserMessage }) {
+export default function MessageForm({ addMessage }) {
     const [value, setValue] = useState('');
 
     function submitHandler(e) {
         e.preventDefault();
-        addUserMessage(value);
+        addMessage(value, 'User');
         setValue('');
     }
 

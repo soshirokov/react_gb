@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Message from './components/Message';
 import './app.scss';
 import MessageList from './components/MessageList';
 import MessageForm from './components/MessageForm';
@@ -7,38 +6,27 @@ import MessageForm from './components/MessageForm';
 function App() {
   const [messageList, setmessageList] = useState([]);
 
-  function addUserMessage(message) {
-    setmessageList([...messageList, {
-      id: messageList.length + 1,
-      author: 'User',
-      text: message,
-      data: (new Date()).toLocaleDateString('ru-RU', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-    }]);
-  }
-
-  function addBotMessage() {
+  function addMessage(message, author) {
     setmessageList(prevState => {
       return [...prevState, {
         id: prevState.length + 1,
-        author: 'Bot',
-        text: 'Hello User!',
+        author: author,
+        text: message,
         data: (new Date()).toLocaleDateString('ru-RU', {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit',
         })
-      }]
+      }];
     });
   }
 
   useEffect(() => {
     if (messageList.length === 0 || messageList[messageList.length - 1].author === 'Bot') return;
 
-    setTimeout(addBotMessage, 1500)
+    const botMsgTimer = setTimeout(() => addMessage('Hello user!', 'Bot'), 1500);
+
+    return ()=>{ clearTimeout(botMsgTimer); };
   }, [messageList])
 
   return (
@@ -48,7 +36,7 @@ function App() {
       </header>
       <div className='App__body'>
         <div className='App__content'>
-          <MessageForm addUserMessage={addUserMessage} />          
+          <MessageForm addMessage={addMessage} />          
           <MessageList list={messageList} />
         </div>
       </div>
