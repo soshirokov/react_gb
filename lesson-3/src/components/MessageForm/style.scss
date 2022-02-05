@@ -1,0 +1,20 @@
+.form {
+  margin: 25px 0;
+  display: flex;
+  justify-content: center;
+
+  &__submit.MuiButton-root {
+    margin-top: 12px;
+    margin-left: 15px;
+    background-color: #9696e7;
+  }
+
+  &__submit.MuiButton-root:hover {
+    background-color: #ef6767;
+  }
+
+  &__input {
+    width: 450px;
+    max-width: 100%;
+  }
+}
