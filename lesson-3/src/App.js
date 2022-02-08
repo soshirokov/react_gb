@@ -2,9 +2,25 @@ import { useState, useEffect } from 'react';
 import './app.scss';
 import MessageList from './components/MessageList';
 import MessageForm from './components/MessageForm';
+import ChatList from './components/ChatList';
 
 function App() {
   const [messageList, setmessageList] = useState([]);
+
+  const chatList = [
+    {
+      name: 'Chat 1',
+      id: 'chat_1' 
+    },
+    {
+      name: 'Chat 2',
+      id: 'chat_2' 
+    },
+    {
+      name: 'Chat 3',
+      id: 'chat_3' 
+    }
+  ];
 
   function addMessage(message, author) {
     setmessageList(prevState => {
@@ -35,9 +51,14 @@ function App() {
         <h1>GB React</h1>
       </header>
       <div className='App__body'>
-        <div className='App__content'>
-          <MessageForm addMessage={addMessage} />          
-          <MessageList list={messageList} />
+        <div className='App__wrapper'>
+          <div className='App__sidebar'>
+            <ChatList chatlist={chatList} />
+          </div>
+          <div className='App__content'>        
+            <MessageList list={messageList} />
+            <MessageForm addMessage={addMessage} /> 
+          </div>
         </div>
       </div>
     </div>
