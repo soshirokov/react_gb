@@ -9,12 +9,13 @@ import './style.scss';
          messages.current?.scrollIntoView();
      }, [list]);
 
+     console.log(list);
 
      return (
          <div className='MessageList'>
-             {list.length ? list.map(msg => {
+             {list.map(msg => {
                  return <Message text={msg.text} author={msg.author} data={msg.data} key={msg.id}></Message>
-             }) : <div className='error'>No messages...</div>}
+             })}
              <div ref={messages} />
          </div>
      );

@@ -47,7 +47,7 @@ export default function Chat () {
     
     return(
         <div className='Chat'>        
-            {messageList[chatId] && <MessageList list={messageList[chatId]} />}
+            {messageList[chatId] ? <MessageList list={messageList[chatId]} /> : <div className='error'>No messages...</div>}
             <MessageForm addMessage={addMessage} /> 
           </div>
     );
