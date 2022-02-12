@@ -10,29 +10,20 @@ export default function Chat () {
 
     function addMessage(message, author) {
         setmessageList(prevState => {
-          return {...prevState,
-          [chatId]: prevState[chatId] ? 
-          [...prevState[chatId], {
-            id: prevState[chatId].length + 1,
-            author: author,
-            text: message,
-            data: (new Date()).toLocaleDateString('ru-RU', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-            })
-          }] :
-          [{
-            id: 1,
-            author: author,
-            text: message,
-            data: (new Date()).toLocaleDateString('ru-RU', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-            })
-          }]
-          }
+          return {...prevState, 
+                [chatId]: [...prevState[chatId] || [], 
+                {
+                  id: (prevState[chatId]?.length || 0) + 1,
+                  author: author,
+                  text: message,
+                  data: (new Date()).toLocaleDateString('ru-RU', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                  })
+                }
+              ]
+          };
         });
       }
 
