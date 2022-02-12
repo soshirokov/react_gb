@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
- import Message from '../Message';
- import './style.scss';
+import Message from '../Message';
+import './style.scss';
 
  export default function MessageList({ list }) {
      const messages = useRef();
@@ -9,12 +9,13 @@ import { useEffect, useRef } from 'react';
          messages.current?.scrollIntoView();
      }, [list]);
 
+     console.log(list);
 
      return (
          <div className='MessageList'>
-             {list.length ? list.map(msg => {
+             {list.map(msg => {
                  return <Message text={msg.text} author={msg.author} data={msg.data} key={msg.id}></Message>
-             }) : <div className='error'>Сообщений пока нет</div>}
+             })}
              <div ref={messages} />
          </div>
      );

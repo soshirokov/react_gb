@@ -18,13 +18,20 @@
     max-width: 1110px;
     margin: 0 auto;
   }
+}
 
-  &__content {
-    max-width: 100%;
+.Nav {
+  width: 100%;
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+
+  &__link {
+    color: inherit;
+    text-decoration: none;
   }
 
-  &__sidebar {
-    width: 25%;
-    margin-right: 25px;
+  &__btn.MuiButton-root {
+    color: inherit;
   }
 }
