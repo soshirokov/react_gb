@@ -1,47 +1,48 @@
-import { useState, useEffect } from 'react';
-import MessageForm from '../MessageForm';
-import MessageList from '../MessageList';
-import {useParams} from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect } from 'react';
+import { MessageForm } from '../MessageForm';
+import { MessageList } from '../MessageList';
+import { useParams } from "react-router-dom";
 import './style.scss';
+import { connect } from 'react-redux';
+import { addMessage } from '../../store/chats/actions';
+import { selectChats } from '../../store/chats/selectors';
+import { selectName } from '../../store/profile/selectors';
 
-export default function Chat () {
-    const [messageList, setmessageList] = useState({});
+const ChatToConnect = ({chats, name, sendMessage}) => {
     const {chatId} = useParams();
-    const { name } = useSelector((state) => state); 
 
-    function addMessage(message, author) {
-        setmessageList(prevState => {
-          return {...prevState, 
-                [chatId]: [...prevState[chatId] || [], 
-                {
-                  id: (prevState[chatId]?.length || 0) + 1,
-                  author: author,
-                  text: message,
-                  data: (new Date()).toLocaleDateString('ru-RU', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })
-                }
-              ]
-          };
-        });
-      }
+    const addNewMessage = useCallback((message, author = name) => {
+      sendMessage({
+        chatId: chatId,
+        author: author,
+        message: message
+      });
+    }, [name, chatId]);
 
-      useEffect(() => {
-        if (!messageList.hasOwnProperty(chatId) || messageList[chatId][messageList[chatId]?.length - 1]?.author === 'Bot') return;
-    
-        const botMsgTimer = setTimeout(() => addMessage(`Hello ${name}!`, 'Bot'), 1500);
-    
-        return ()=>{ clearTimeout(botMsgTimer); };
-      }, [messageList]);
+    useEffect(() => {
+      if (!chats.hasOwnProperty(chatId) || !chats[chatId].messages.length || chats[chatId].messages[chats[chatId].messages.length - 1]?.author === 'Bot') return;
+  
+      const botMsgTimer = setTimeout(() => addNewMessage(`Hello ${name}!`, 'Bot'), 1500);
+  
+      return () => { clearTimeout(botMsgTimer); };
+    }, [chats]);
 
     
     return(
         <div className='Chat'>        
-            {messageList[chatId] ? <MessageList list={messageList[chatId]} /> : <div className='error'>No messages...</div>}
-            <MessageForm addMessage={addMessage} /> 
+            {chats[chatId]?.messages.length ? <MessageList list={chats[chatId].messages} /> : <div className='error'>No messages...</div>}
+            <MessageForm addMessage={addNewMessage} /> 
           </div>
     );
 }
+
+const mapStateToProps = (state) => ({
+  chats: selectChats(state),
+  name: selectName(state)
+});
+
+const mapDispatchToProps = {
+  sendMessage: addMessage
+};
+
+export const Chat = connect(mapStateToProps, mapDispatchToProps)(ChatToConnect);

@@ -1,15 +1,13 @@
 import { useEffect, useRef } from 'react';
-import Message from '../Message';
+import { Message } from '../Message';
 import './style.scss';
 
- export default function MessageList({ list }) {
+ export const MessageList = ({ list }) => {
      const messages = useRef();
 
      useEffect(()=>{
          messages.current?.scrollIntoView();
      }, [list]);
-
-     console.log(list);
 
      return (
          <div className='MessageList'>

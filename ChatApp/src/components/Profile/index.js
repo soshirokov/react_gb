@@ -2,20 +2,18 @@ import './style.scss';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { toggleShowName, setName } from '../../store/profile/actions';
-import { useSelector, useDispatch } from 'react-redux';
-import Form from '../Form';
+import { connect } from 'react-redux';
+import { selectShowName, selectName } from '../../store/profile/selectors';
+import { Form } from '../Form';
 
 
-export default function Profile () {
-  const { showName, name } = useSelector((state) => state);
-  const dispatch = useDispatch();
-
+const ProfileToConnect = ({showName, name, changeShowName, changeName}) => {
   function setShowName (){
-    dispatch(toggleShowName);
+    changeShowName();
   }
 
   function setNewName(value) {
-    dispatch(setName(value));
+    changeName(value);
   }
 
   return(
@@ -28,3 +26,15 @@ export default function Profile () {
   </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  showName: selectShowName(state),
+  name: selectName(state),
+});
+
+const mapDispatchToProps = {
+  changeShowName: () => toggleShowName,
+  changeName: setName
+};
+
+export const Profile = connect(mapStateToProps, mapDispatchToProps)(ProfileToConnect);

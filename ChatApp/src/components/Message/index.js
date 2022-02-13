@@ -1,6 +1,6 @@
 import './style.scss';
 
-export default function Message({ text, author, data }) {
+export const Message = ({ text, author, data }) => {
     const isBot = author === 'Bot' ? 'isBot' : '';
     return (
         <div className={'message ' + isBot}>

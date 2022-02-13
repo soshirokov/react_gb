@@ -3,62 +3,53 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Link, Outlet, useParams, Navigate } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react';
 import './style.scss';
 import Button from '@mui/material/Button';
+import { addChat, deleteChat } from '../../store/chats/actions';
+import { selectChats } from '../../store/chats/selectors';
+import { connect } from 'react-redux';
 
- export default function ChatList () {
-    const [chatList, setChatList] = useState([
-      {
-        name: 'Chat 1',
-        id: 'chat_1' 
-      },
-      {
-        name: 'Chat 2',
-        id: 'chat_2' 
-      },
-      {
-        name: 'Chat 3',
-        id: 'chat_3' 
-      }
-    ]);
-    const [countChats, setCountChats] = useState(chatList.length);
-
-
+ export const ChatListToConnect = ({ chats, removeChat, addChats }) => {
     const {chatId} = useParams();
     
-    if (chatId !== undefined && chatList.findIndex(chat => chat.id === chatId) === -1) {
+    if (chatId !== undefined && !chats.hasOwnProperty(chatId)) {
       return <Navigate to="/chats/" replace />;
     }
 
-    function deleteChat(id) {
-      setChatList(prevState => prevState.filter(chat => chat.id !== id));
+    function deleteChatById(id) {
+      removeChat(id);
     }
 
-    function addChat() {
-      setChatList(prevState => [...prevState, {
-        name: 'Chat ' + (countChats + 1),
-        id: 'chat_' + (countChats + 1)
-      }]);
-
-      setCountChats(prevCount => ++prevCount);
+    function addNewChat() {
+      addChats();
     }
 
     return(
       <>
       <div className='chatList'>
           <List>
-              {chatList.map(chat => {
-                  return (
-                  <ListItemButton component={Link} key={chat.id} to={"/chats/" + chat.id}>
-                      <ListItemText primary={chat.name} />
-                      <CloseIcon onClick={() => deleteChat(chat.id)}/>
-                  </ListItemButton>);
-              })}
+            {Object.keys(chats).map(chatId => {
+              return (
+                <ListItemButton component={Link} key={chatId} to={"/chats/" + chatId}>
+                    <ListItemText primary={chats[chatId].name} />
+                    <CloseIcon onClick={() => deleteChatById(chatId)}/>
+                </ListItemButton>);
+            })}
           </List>
-          <Button onClick={addChat}>+ add chat</Button>
+          <Button onClick={addNewChat}>+ add chat</Button>
       </div>
       <Outlet />
       </>
     );
  } 
+
+ const mapStateToProps = (state) => ({
+  chats: selectChats(state)
+});
+
+const mapDispatchToProps = {
+  removeChat: deleteChat,
+  addChats: () => addChat
+};
+
+export const ChatList = connect(mapStateToProps, mapDispatchToProps)(ChatListToConnect);
