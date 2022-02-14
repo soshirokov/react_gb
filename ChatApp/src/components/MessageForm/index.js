@@ -1,28 +1,15 @@
-import { useState } from 'react';
- import ReactDOM from 'react-dom';
- import TextField from '@mui/material/TextField';
- import Button from '@mui/material/Button';
- import './style.scss';
+import './style.scss';
+import Form from '../Form';
+import { useSelector } from 'react-redux';
 
  export default function MessageForm({ addMessage }) {
-     const [value, setValue] = useState('');
-
-     function submitHandler(e) {
-         e.preventDefault();
-         addMessage(value, 'User');
-         setValue('');
-     }
-
-     function inputChangeHandler(e) {
-         setValue(e.target.value);
+    const { name } = useSelector((state) => state); 
+    
+    function submitHandler(value) {
+         addMessage(value, name);
      }
 
      return (
-         <div className='form' onSubmit={submitHandler}>
-             <form>
-                 <TextField className='form__input' id="standard-basic" label="Type something..." value={value} variant="standard" onChange={inputChangeHandler}  autoFocus/>
-                 <Button className='form__submit' variant="contained" type='submit'>Send</Button>
-             </form>
-         </div>
+        <Form onSubmitCallback={submitHandler} placeholder="Type something" submitText="Send"/>
      );
  } 

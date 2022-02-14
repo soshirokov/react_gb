@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import MessageForm from '../MessageForm';
 import MessageList from '../MessageList';
 import {useParams} from "react-router-dom";
+import { useSelector } from 'react-redux';
 import './style.scss';
 
 export default function Chat () {
     const [messageList, setmessageList] = useState({});
     const {chatId} = useParams();
+    const { name } = useSelector((state) => state); 
 
     function addMessage(message, author) {
         setmessageList(prevState => {
@@ -30,7 +32,7 @@ export default function Chat () {
       useEffect(() => {
         if (!messageList.hasOwnProperty(chatId) || messageList[chatId][messageList[chatId]?.length - 1]?.author === 'Bot') return;
     
-        const botMsgTimer = setTimeout(() => addMessage('Hello user!', 'Bot'), 1500);
+        const botMsgTimer = setTimeout(() => addMessage(`Hello ${name}!`, 'Bot'), 1500);
     
         return ()=>{ clearTimeout(botMsgTimer); };
       }, [messageList]);
