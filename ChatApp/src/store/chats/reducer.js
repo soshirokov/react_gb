@@ -9,7 +9,7 @@ export const chatReducer = (state = initialState, action) => {
              ...state, 
              [action.payload.chatId]: {...state[action.payload.chatId], 
                 messages: [...state[action.payload.chatId].messages || [], {
-                    id: (state[action.payload.chatId].messages || 0) + 1,
+                    id: (state[action.payload.chatId].messages.length || 0) + 1,
                     author: action.payload.author,
                     text: action.payload.message,
                     data: (new Date()).toLocaleDateString('ru-RU', {
@@ -20,11 +20,11 @@ export const chatReducer = (state = initialState, action) => {
                 }]}
         }
         case ADD_CHAT:
-        const chatCount = Object.keys(state).length;
+        const newChatId = Date.now().toString().slice(-4);
         return {
             ...state, 
-            ['chat_'+(chatCount + 1)]: {
-                name: 'Chat ' + (chatCount + 1),
+            ['chat_'+newChatId]: {
+                name: 'Chat ' + newChatId,
                 messages: []
             }
         } 
