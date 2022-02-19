@@ -15,3 +15,16 @@ export const deleteChat = (idToDelete) => ({
   type: DELETE_CHAT,
   payload: idToDelete
 });
+
+export const addMessageThunk = (messageParams) => (dispatch) => {
+  dispatch(addMessage(messageParams));
+  if(messageParams.author !== 'Bot') {
+    setTimeout(() => {
+      dispatch(addMessage({
+        chatId: messageParams.chatId,
+        author: 'Bot',
+        message: `Hello ${messageParams.author}!`
+      }))
+    }, 1000);
+  }
+}
