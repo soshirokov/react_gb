@@ -1,9 +1,9 @@
 import './app.scss';
-import ChatList from './components/ChatList';
-import Chat from './components/Chat';
-import Profile from './components/Profile';
+import { ChatList } from './components/ChatList';
+import { Chat } from './components/Chat';
+import { Profile } from './components/Profile';
 import Button from '@mui/material/Button';
-import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 
 function App() {
   return (

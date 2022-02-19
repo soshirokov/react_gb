@@ -3,7 +3,7 @@
  import './style.scss';
 import { useState } from 'react';
 
- export default function Form({onSubmitCallback, placeholder, submitText}) {
+ export const Form = ({onSubmitCallback, placeholder, submitText}) => {
     const [value, setValue] = useState('');
     
     function submitHandler (e) {

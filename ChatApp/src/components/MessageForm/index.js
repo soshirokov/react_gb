@@ -1,8 +1,8 @@
 import './style.scss';
-import Form from '../Form';
+import { Form } from '../Form';
 import { useSelector } from 'react-redux';
 
- export default function MessageForm({ addMessage }) {
+ export const MessageForm = ({ addMessage }) => {
     const { name } = useSelector((state) => state); 
     
     function submitHandler(value) {
