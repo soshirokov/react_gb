@@ -15,7 +15,7 @@ const ChatContainerToConnect = ({chats, name, sendMessage}) => {
         author: author,
         message: message
       });
-    }, [name, chatId]);
+    }, [name, chatId, sendMessage]);
     
     return(
         <Chat chats={chats} addNewMessage={addNewMessage} chatId={chatId}/>

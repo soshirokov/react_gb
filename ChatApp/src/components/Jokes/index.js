@@ -16,7 +16,7 @@ export const Jokes = () => {
 
     useEffect(()=>{
         dispatch(getJokesThunk());
-    },[]);
+    },[dispatch]);
 
     const refreshHendler = () => {
       dispatch(getJokesThunk());
