@@ -1,5 +1,6 @@
+import { set } from 'firebase/database';
 import { useState } from 'react';
-import { signIn, signUp } from '../../utils/firebase';
+import { auth, profileRef, signIn, signUp } from '../../utils/firebase';
 import { Login } from './Login';
 import './style.scss';
 
@@ -26,6 +27,11 @@ export const LoginContainer = ({authed}) => {
     const singUpHendler = async (email, pass) => {
         try {
             await signUp(email, pass);
+            const userId = auth.currentUser.uid;
+            set(profileRef(userId), {
+                name: email,
+                id: userId
+            });
         } catch(e) {
             setErr(e.message);
         }

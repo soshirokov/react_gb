@@ -1,20 +1,33 @@
 import './style.scss';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { toggleShowName, setName } from '../../store/profile/actions';
+import { toggleShowName, initNameTracking, getNameFB } from '../../store/profile/actions';
 import { connect } from 'react-redux';
 import { selectShowName, selectName } from '../../store/profile/selectors';
 import { Form } from '../Form';
+import { set } from 'firebase/database';
+import { auth, profileRef } from '../../utils/firebase';
+import { useEffect } from 'react';
 
 
-const ProfileToConnect = ({showName, name, changeShowName, changeName}) => {
+const ProfileToConnect = ({showName, name, changeShowName, nameTracking, getName}) => {
+  const userId = auth.currentUser.uid;
+  
   function setShowName (){
     changeShowName();
   }
 
   function setNewName(value) {
-    changeName(value);
+    set(profileRef(userId), {
+        name: value,
+        id: userId
+    });
   }
+
+  useEffect(() => {
+    getName(userId);
+    nameTracking(userId);
+  }, [nameTracking, userId, getName])
 
   return(
   <div className="profile">
@@ -34,7 +47,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   changeShowName: () => toggleShowName,
-  changeName: setName
+  nameTracking: initNameTracking,
+  getName: getNameFB
 };
 
 export const Profile = connect(mapStateToProps, mapDispatchToProps)(ProfileToConnect);
