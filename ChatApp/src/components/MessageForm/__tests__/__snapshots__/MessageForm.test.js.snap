@@ -11,6 +11,7 @@ Object {
         <form>
           <div
             class="MuiFormControl-root MuiTextField-root form__input css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+            data-testid="messageTextField"
           >
             <label
               class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary Mui-focused css-1c2i806-MuiFormLabel-root-MuiInputLabel-root"
@@ -53,6 +54,7 @@ Object {
       <form>
         <div
           class="MuiFormControl-root MuiTextField-root form__input css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          data-testid="messageTextField"
         >
           <label
             class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-standard MuiFormLabel-root MuiFormLabel-colorPrimary Mui-focused css-1c2i806-MuiFormLabel-root-MuiInputLabel-root"

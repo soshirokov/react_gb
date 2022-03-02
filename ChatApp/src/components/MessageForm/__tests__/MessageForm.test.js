@@ -28,4 +28,25 @@ describe('test MessageForm presentation', () => {
 
         expect(myHandler).toHaveBeenCalledTimes(1);
     });
+
+    it('calls addMessage whith text when form submit', async () => {
+        const myHandler = jest.fn();
+
+        render(<Provider store={store}><MessageForm addMessage={myHandler}/></Provider>);
+
+        const submitBtn = screen.getByText('Send');
+        const formInput = screen.getByTestId('messageTextField').querySelector('input');
+
+        fireEvent.change(formInput, {target: {value: 'test message'}});
+        fireEvent(
+            submitBtn,
+            new MouseEvent("click", {
+              bubbles: true,
+              cancelable: true,
+            })
+        );
+
+        expect(myHandler).toHaveBeenCalledTimes(1);
+        expect(myHandler).toHaveBeenCalledWith('test message', undefined);
+    });
 });
