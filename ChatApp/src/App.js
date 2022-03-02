@@ -4,6 +4,7 @@ import { Chat } from './components/Chat';
 import { Profile } from './components/Profile';
 import Button from '@mui/material/Button';
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { Jokes } from './components/Jokes';
 
 function App() {
   return (
@@ -25,6 +26,11 @@ function App() {
                 <Button className='Nav__btn' size='large'>My profile</Button>
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/jokes" className='Nav__link'>
+                <Button className='Nav__btn' size='large'>Jokes</Button>
+              </NavLink>
+            </li>
           </ul>
           </div>
           <div className='App__wrapper'>
@@ -34,6 +40,7 @@ function App() {
               <Route path=":chatId" element={<Chat />} />
             </Route>
             <Route path="profile" element={<Profile />}></Route>
+            <Route path="jokes" element={<Jokes />}></Route>
             <Route element={<h2>404</h2>} />
           </Routes>
           </div>
