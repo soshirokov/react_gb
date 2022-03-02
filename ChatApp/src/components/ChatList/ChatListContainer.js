@@ -1,22 +1,36 @@
 import { useParams, Navigate } from "react-router-dom";
-import { addChat, deleteChat } from '../../store/chats/actions';
 import { selectChats } from '../../store/chats/selectors';
 import { connect } from 'react-redux';
 import { ChatList } from './ChatListPresentation';
+import { set } from 'firebase/database';
+import { auth, chatRef } from '../../utils/firebase';
+import { useEffect } from 'react';
+import { initChatsTracking } from '../../store/chats/actions';
 
- export const ChatListContainerToConnect = ({ chats, removeChat, addChats }) => {
+ export const ChatListContainerToConnect = ({ chats, chatsTracking }) => {
     const {chatId} = useParams();
     
-    if (chatId !== undefined && !chats.hasOwnProperty(chatId)) {
-      return <Navigate to="/chats/" replace />;
-    }
-
     function deleteChatById(id) {
-      removeChat(id);
+      set(chatRef(id), null);
     }
 
     function addNewChat() {
-      addChats();
+      const id = Date.now().toString().slice(-4);
+
+      set(chatRef(`chat_${id}`), {
+        id: `chat_${id}`,
+        name: `Chat ${id}`,
+        messages: false,
+        userUid: auth.currentUser.uid
+      });
+    }
+
+    useEffect(() => {
+      chatsTracking();
+    }, [chatsTracking])
+
+    if (chatId !== undefined && !chats.hasOwnProperty(chatId)) {
+      return <Navigate to="/chats/" replace />;
     }
 
     return(
@@ -29,8 +43,8 @@ import { ChatList } from './ChatListPresentation';
 });
 
 const mapDispatchToProps = {
-  removeChat: deleteChat,
-  addChats: () => addChat
+  chatsTracking: initChatsTracking
 };
+
 
 export const ChatListContainer = connect(mapStateToProps, mapDispatchToProps)(ChatListContainerToConnect);

@@ -12,7 +12,7 @@ import './style.scss';
      return (
          <div className='MessageList'>
              {list.map(msg => {
-                 return <Message text={msg.text} author={msg.author} data={msg.data} key={msg.id}></Message>
+                 return <Message text={msg.text} author={msg.author} date={msg.date} key={msg.id}></Message>
              })}
              <div ref={messages} />
          </div>

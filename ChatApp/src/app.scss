@@ -17,6 +17,10 @@
     display: flex;
     max-width: 1110px;
     margin: 0 auto;
+
+    &_center {
+      justify-content: center;
+    }
   }
 }
 

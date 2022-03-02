@@ -1,0 +1,29 @@
+.login {
+  margin: 50px auto 0 auto;
+  padding: 25px;
+
+  h2 {
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  &__input.MuiTextField-root {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  form {
+    text-align: right;
+  }
+
+  &__checkbox {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  &__error {
+    color: rgb(167, 2, 2);
+    text-align: center;
+  }
+}
