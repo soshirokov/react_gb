@@ -18,9 +18,10 @@ export const jokesError = (error) => ({
 
 export const getJokesThunk = () => async (dispatch) => {
   dispatch(jokesRequest);
-
-  const response = await fetch('http://api.icndb.com/jokes/random/10');
+  
   try {
+    const response = await fetch('http://api.icndb.com/jokes/random/10');
+
     if (!response.ok) {
       throw new Error(response.status);
     }
