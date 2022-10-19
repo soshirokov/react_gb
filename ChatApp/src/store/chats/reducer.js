@@ -9,22 +9,17 @@ export const chatReducer = (state = initialState, action) => {
              ...state, 
              [action.payload.chatId]: {...state[action.payload.chatId], 
                 messages: [...state[action.payload.chatId].messages || [], {
-                    id: (state[action.payload.chatId].messages.length || 0) + 1,
+                    id: action.payload.id,
                     author: action.payload.author,
-                    text: action.payload.message,
-                    data: (new Date()).toLocaleDateString('ru-RU', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    })
+                    text: action.payload.text,
+                    date: action.payload.date
                 }]}
         }
         case ADD_CHAT:
-        const newChatId = Date.now().toString().slice(-4);
         return {
             ...state, 
-            ['chat_'+newChatId]: {
-                name: 'Chat ' + newChatId,
+            [action.payload.id]: {
+                name: action.payload.name,
                 messages: []
             }
         } 
@@ -33,6 +28,6 @@ export const chatReducer = (state = initialState, action) => {
         delete newState[action.payload];
         return newState;
         default:
-            return state
+        return state
     }
 }
